@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CUE - Cook with what you have</title>
+    <meta
+      name="description"
+      content="CUE turns a quick photo of ingredients into clean recipe suggestions."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="nav" aria-label="Primary navigation">
+        <a class="brand" href="#home" data-action="home" aria-label="CUE home">
+          <img class="brand-logo" src="assets/logo-cue.png" alt="CUE" />
+        </a>
+
+        <nav class="nav-links" aria-label="Page sections">
+          <a href="#how">How it works</a>
+          <a href="#recipes">Recipes</a>
+          <a href="#footer">Contact</a>
+        </nav>
+
+        <button class="nav-cta" type="button" data-action="focus-input">
+          Get started
+        </button>
+      </header>
+
+      <main>
+        <section class="page landing-page is-active" data-page="landing">
+          <section class="hero" id="home">
+            <div class="hero-copy">
+              <h1>
+                Cook with<br />
+                <span>what you have</span>
+              </h1>
+              <p>Turn your ingredients into real meals with AI</p>
+
+              <form class="generate-form" id="generateForm">
+                <label class="ingredient-field" for="ingredientInput">
+                  <input
+                    id="ingredientInput"
+                    name="ingredients"
+                    autocomplete="off"
+                    placeholder="Type ingredients or upload a photo..."
+                  />
+                </label>
+
+                <input id="photoInput" type="file" accept="image/*" hidden />
+
+                <button
+                  class="icon-button upload-button"
+                  type="button"
+                  id="uploadButton"
+                  aria-label="Upload ingredient photo"
+                  title="Upload ingredient photo"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 3v12" />
+                    <path d="m7 8 5-5 5 5" />
+                    <path d="M5 15v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4" />
+                  </svg>
+                </button>
+
+                <button class="generate-button" type="submit">
+                  <span>Generate</span>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M5 12h14" />
+                    <path d="m13 6 6 6-6 6" />
+                  </svg>
+                </button>
+              </form>
+
+              <div class="cue-line" aria-live="polite">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 2 9.8 8.4 3 10.8l6.8 2.3L12 20l2.2-6.9 6.8-2.3-6.8-2.4L12 2Z" />
+                  <path d="M4 17.5 2.8 21 6 19.7 9.2 21 8 17.5l1.2-3.4L6 15.3l-3.2-1.2L4 17.5Z" />
+                </svg>
+                <span id="cueHint">eggs + tomato -> omelette</span>
+              </div>
+            </div>
+
+            <div class="hero-visual" aria-hidden="true">
+              <img src="assets/cube-transparent.webp" alt="" />
+            </div>
+          </section>
+
+          <section class="section how-section" id="how">
+            <div class="section-heading">
+              <p>From photo to dinner</p>
+              <h2>Three quiet steps</h2>
+            </div>
+
+            <div class="steps-grid">
+              <article class="step-card">
+                <span class="step-number">1</span>
+                <h3>Upload ingredients</h3>
+                <p>Snap a fridge photo or type what is on the counter.</p>
+              </article>
+              <article class="step-card">
+                <span class="step-number">2</span>
+                <h3>Match recipes</h3>
+                <p>CUE reads the ingredients and filters by time and pantry basics.</p>
+              </article>
+              <article class="step-card">
+                <span class="step-number">3</span>
+                <h3>Cook clearly</h3>
+                <p>Open a recipe with clean ingredients, calories and steps.</p>
+              </article>
+            </div>
+          </section>
+
+          <section class="section recipe-list-section" id="recipes">
+            <div class="section-heading compact">
+              <p>Popular recipes</p>
+              <h2>Fast ideas from simple food</h2>
+            </div>
+
+            <div class="recipe-list" id="recipeList" aria-label="Popular recipes"></div>
+          </section>
+        </section>
+
+        <section class="page recipe-page" data-page="recipe" aria-live="polite">
+          <div class="recipe-layout">
+            <div class="recipe-copy">
+              <button class="back-link" type="button" data-action="home">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M19 12H5" />
+                  <path d="m11 6-6 6 6 6" />
+                </svg>
+                <span>Back to recipes</span>
+              </button>
+
+              <h1 id="recipeTitle">Avocado &amp; Tomato <span>Omelette</span></h1>
+              <p class="recipe-description" id="recipeDescription">
+                A fluffy, protein-packed omelette with creamy avocado, juicy tomatoes,
+                and a hint of herbs.
+              </p>
+
+              <div class="recipe-meta" aria-label="Recipe details">
+                <div>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M12 7v6l4 2" />
+                  </svg>
+                  <p>Cook time <strong id="recipeTime">15 min</strong></p>
+                </div>
+                <div>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M5 19V9a2 2 0 1 1 4 0v10" />
+                    <path d="M10 19V5a2 2 0 1 1 4 0v14" />
+                    <path d="M15 19v-7a2 2 0 1 1 4 0v7" />
+                  </svg>
+                  <p>Difficulty <strong id="recipeDifficulty">Easy</strong></p>
+                </div>
+                <div>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 22c4.2-1.7 7-4.7 7-8.5 0-2.7-1.4-5.1-4.1-7.1.2 2.4-.6 4.1-2.4 5.1.2-3.9-1.4-6.7-4.8-8.5.4 3-.2 5.1-1.8 6.5C4.6 10.7 4 12.1 4 14c0 3.8 2.8 6.8 8 8Z" />
+                  </svg>
+                  <p>Calories <strong id="recipeCalories">420 kcal</strong></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="recipe-image-wrap">
+              <img id="recipeImage" src="assets/omelette.png" alt="Avocado and tomato omelette on a dark plate" />
+            </div>
+
+            <section class="ingredients-panel">
+              <h2>Ingredients</h2>
+              <ul id="ingredientsList"></ul>
+            </section>
+
+            <section class="instructions-panel">
+              <h2>Instructions</h2>
+              <ol id="instructionsList"></ol>
+            </section>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer" id="footer">
+        <a class="footer-brand" href="#home" data-action="home">CUE</a>
+        <nav aria-label="Footer links">
+          <a href="#how">How it works</a>
+          <a href="#recipes">Recipes</a>
+          <a href="#home">Start</a>
+        </nav>
+        <div class="social-links" aria-label="Social links">
+          <a href="#" aria-label="CUE on X">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 4 20 20" />
+              <path d="M20 4 4 20" />
+            </svg>
+          </a>
+          <a href="#" aria-label="CUE on Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="5" y="5" width="14" height="14" rx="4" />
+              <circle cx="12" cy="12" r="3.2" />
+              <path d="M16.8 7.2h.01" />
+            </svg>
+          </a>
+          <a href="#" aria-label="CUE on YouTube">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 8.5c.2-1.2 1-2 2.2-2.2 3.2-.4 6.4-.4 9.6 0 1.2.2 2 1 2.2 2.2.4 2.3.4 4.7 0 7-.2 1.2-1 2-2.2 2.2-3.2.4-6.4.4-9.6 0-1.2-.2-2-1-2.2-2.2-.4-2.3-.4-4.7 0-7Z" />
+              <path d="m10.5 9.5 4 2.5-4 2.5v-5Z" />
+            </svg>
+          </a>
+        </div>
+      </footer>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
