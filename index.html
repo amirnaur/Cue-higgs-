@@ -8,6 +8,17 @@
       name="description"
       content="CUE turns a quick photo of ingredients into clean recipe suggestions."
     />
+    <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
+    <link rel="shortcut icon" href="favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="favicon/site.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -26,6 +37,18 @@
         <button class="nav-cta" type="button" data-action="focus-input">
           Get started
         </button>
+
+        <button
+          class="nav-profile"
+          type="button"
+          aria-label="Account"
+          data-action="focus-input"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="9" r="3.4" />
+            <path d="M5.5 19.5c1-3.4 3.7-5.2 6.5-5.2s5.5 1.8 6.5 5.2" />
+          </svg>
+        </button>
       </header>
 
       <main>
@@ -39,14 +62,34 @@
               <p>Turn your ingredients into real meals with AI</p>
 
               <form class="generate-form" id="generateForm">
-                <label class="ingredient-field" for="ingredientInput">
+                <div class="ingredient-field">
+                  <div
+                    class="photo-preview"
+                    id="photoPreview"
+                    hidden
+                    aria-label="Uploaded ingredient photo"
+                  >
+                    <img id="photoPreviewImage" alt="Ingredient preview" />
+                    <button
+                      class="photo-preview-remove"
+                      type="button"
+                      id="photoPreviewRemove"
+                      aria-label="Remove uploaded photo"
+                      title="Remove photo"
+                    >
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M6 6 18 18" />
+                        <path d="M18 6 6 18" />
+                      </svg>
+                    </button>
+                  </div>
                   <input
                     id="ingredientInput"
                     name="ingredients"
                     autocomplete="off"
                     placeholder="Type ingredients or upload a photo..."
                   />
-                </label>
+                </div>
 
                 <input id="photoInput" type="file" accept="image/*" hidden />
 
@@ -74,48 +117,126 @@
               </form>
 
               <div class="cue-line" aria-live="polite">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M12 2 9.8 8.4 3 10.8l6.8 2.3L12 20l2.2-6.9 6.8-2.3-6.8-2.4L12 2Z" />
-                  <path d="M4 17.5 2.8 21 6 19.7 9.2 21 8 17.5l1.2-3.4L6 15.3l-3.2-1.2L4 17.5Z" />
-                </svg>
-                <span id="cueHint">eggs + tomato -> omelette</span>
+                <span class="cue-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M12 3c.4 3.5 2.1 5.6 5.5 6-3.4.4-5.1 2.5-5.5 6-.4-3.5-2.1-5.6-5.5-6 3.4-.4 5.1-2.5 5.5-6Z"
+                      fill="currentColor"
+                      stroke="none"
+                    />
+                  </svg>
+                </span>
+                <span class="cue-text" id="cueHint">eggs + tomato → omelette</span>
               </div>
+
+              <section class="suggestion-section" aria-label="Suggestions">
+                <p class="suggestion-label">Try these</p>
+                <div class="suggestion-chips">
+                  <button
+                    class="suggestion-chip"
+                    type="button"
+                    data-suggestion="eggs + tomato"
+                  >
+                    <span class="suggestion-chip-dot" aria-hidden="true"></span>
+                    <span class="suggestion-chip-text">
+                      <span>eggs + tomato</span>
+                      <em>→ omelette</em>
+                    </span>
+                  </button>
+                  <button
+                    class="suggestion-chip"
+                    type="button"
+                    data-suggestion="salmon + rice + avocado"
+                  >
+                    <span class="suggestion-chip-dot" aria-hidden="true"></span>
+                    <span class="suggestion-chip-text">
+                      <span>salmon + rice</span>
+                      <em>→ poke bowl</em>
+                    </span>
+                  </button>
+                  <button
+                    class="suggestion-chip"
+                    type="button"
+                    data-suggestion="bread + cheese + pepperoni"
+                  >
+                    <span class="suggestion-chip-dot" aria-hidden="true"></span>
+                    <span class="suggestion-chip-text">
+                      <span>bread + cheese</span>
+                      <em>→ pizza toast</em>
+                    </span>
+                  </button>
+                </div>
+              </section>
             </div>
 
             <div class="hero-visual" aria-hidden="true">
-              <img src="assets/cube-transparent.webp" alt="" />
+              <picture>
+                <source media="(max-width: 820px)" srcset="Cube_mobile.png" />
+                <img src="assets/cube-transparent.webp" alt="" />
+              </picture>
             </div>
           </section>
 
           <section class="section how-section" id="how">
-            <div class="section-heading">
-              <p>From photo to dinner</p>
-              <h2>Three quiet steps</h2>
+            <div class="how-heading">
+              <h2>How <span>to</span></h2>
+              <p>From ingredients to real meals in three easy steps.</p>
             </div>
 
             <div class="steps-grid">
               <article class="step-card">
-                <span class="step-number">1</span>
-                <h3>Upload ingredients</h3>
-                <p>Snap a fridge photo or type what is on the counter.</p>
+                <div class="step-card-head">
+                  <span class="step-number">1</span>
+                  <h3>Upload <span>ingredients</span></h3>
+                  <p>Snap a fridge photo or type what is on the counter.</p>
+                </div>
+                <div class="step-card-image">
+                  <img src="step1.png" alt="Camera view of fresh ingredients" />
+                </div>
               </article>
+
+              <div class="step-arrow" aria-hidden="true">
+                <svg viewBox="0 0 64 16">
+                  <path d="M2 8h54" stroke-dasharray="4 6" />
+                  <path d="m54 3 6 5-6 5" />
+                </svg>
+              </div>
+
               <article class="step-card">
-                <span class="step-number">2</span>
-                <h3>Match recipes</h3>
-                <p>CUE reads the ingredients and filters by time and pantry basics.</p>
+                <div class="step-card-head">
+                  <span class="step-number">2</span>
+                  <h3>Match <span>recipes</span></h3>
+                  <p>CUE reads the ingredients and filters by time and pantry basics.</p>
+                </div>
+                <div class="step-card-image">
+                  <img src="step2.png" alt="Best recipe matches list" />
+                </div>
               </article>
+
+              <div class="step-arrow" aria-hidden="true">
+                <svg viewBox="0 0 64 16">
+                  <path d="M2 8h54" stroke-dasharray="4 6" />
+                  <path d="m54 3 6 5-6 5" />
+                </svg>
+              </div>
+
               <article class="step-card">
-                <span class="step-number">3</span>
-                <h3>Cook clearly</h3>
-                <p>Open a recipe with clean ingredients, calories and steps.</p>
+                <div class="step-card-head">
+                  <span class="step-number">3</span>
+                  <h3>Cook <span>clearly</span></h3>
+                  <p>Open a recipe with clean ingredients, calories and steps.</p>
+                </div>
+                <div class="step-card-image">
+                  <img src="step3.png" alt="Recipe steps view" />
+                </div>
               </article>
             </div>
           </section>
 
           <section class="section recipe-list-section" id="recipes">
-            <div class="section-heading compact">
-              <p>Popular recipes</p>
-              <h2>Fast ideas from simple food</h2>
+            <div class="how-heading">
+              <h2>Popular <span>recipes</span></h2>
+              <p>Fast, simple ideas from everyday ingredients.</p>
             </div>
 
             <div class="recipe-list" id="recipeList" aria-label="Popular recipes"></div>
@@ -211,6 +332,29 @@
         </div>
       </footer>
     </div>
+
+    <nav class="mobile-tabbar" aria-label="Bottom navigation">
+      <a class="tab-item is-active" href="#home" data-action="home">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 11.4 12 4l8 7.4" />
+          <path d="M6 10.5V20h4v-5h4v5h4v-9.5" />
+        </svg>
+        <span>Home</span>
+      </a>
+      <a class="tab-item" href="#recipes" data-tab="history">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 7v6l4 2" />
+        </svg>
+        <span>History</span>
+      </a>
+      <a class="tab-item" href="#recipes" data-tab="saved">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 4h10a1 1 0 0 1 1 1v16l-6-4-6 4V5a1 1 0 0 1 1-1Z" />
+        </svg>
+        <span>Saved</span>
+      </a>
+    </nav>
 
     <script src="app.js"></script>
   </body>

@@ -41,85 +41,97 @@ const recipes = [
     ],
   },
   {
-    id: "soft-egg-greens-fold",
-    title: "Soft Egg & Greens",
-    accent: "Fold",
+    id: "loaded-pizza-toast",
+    title: "Loaded Pizza",
+    accent: "Toast",
     description:
-      "A quick folded egg dish with leafy greens, cheese and a clean peppery finish.",
+      "Crispy sourdough toast loaded with melted mozzarella, pepperoni, sausage, mushrooms and green pepper, finished with fresh basil.",
     time: "12 min",
     difficulty: "Easy",
-    calories: "390 kcal",
-    thumb: "assets/thumb-avocado.png",
-    image: "assets/omelette.png",
-    alt: "Folded omelette with greens and cheese",
-    meta: "eggs + greens + cheese / 12 min / easy",
+    calories: "490 kcal",
+    thumb: "pizza-tost.webp",
+    image: "pizza-tost.webp",
+    alt: "Two slices of loaded pizza toast with pepperoni, sausage, mushrooms and basil",
+    meta: "bread + cheese + pepperoni / 12 min / easy",
     tags: [
-      "egg",
-      "eggs",
-      "greens",
-      "greens",
-      "spinach",
-      "spinach",
+      "bread",
+      "bread",
+      "toast",
+      "toast",
       "cheese",
       "cheese",
-      "herbs",
+      "mozzarella",
+      "pepperoni",
+      "pepperoni",
+      "sausage",
+      "mushroom",
+      "mushrooms",
+      "pepper",
+      "pizza",
+      "pizza",
+      "basil",
+      "tomato",
     ],
     ingredients: [
-      "2 large eggs",
-      "1 cup spinach or greens",
-      "2 tbsp grated cheese",
-      "1 tsp olive oil",
-      "1 tbsp chopped herbs",
-      "Salt, to taste",
-      "Black pepper, to taste",
-      "Lemon zest, optional",
+      "2 thick slices of sourdough bread",
+      "4 tbsp tomato sauce",
+      "1 cup shredded mozzarella",
+      "8 slices pepperoni",
+      "60g cooked Italian sausage, crumbled",
+      "4 mushrooms, sliced",
+      "½ green bell pepper, diced",
+      "Fresh basil, oregano, chili flakes",
     ],
     instructions: [
-      "Beat eggs with salt, pepper and chopped herbs.",
-      "Wilt greens in olive oil for 30 seconds.",
-      "Add eggs and cook on low heat until softly set.",
-      "Sprinkle cheese, fold once and rest for a minute before serving.",
+      "Preheat the oven to 220°C (425°F) and line a tray with parchment.",
+      "Spread tomato sauce evenly across both slices of bread.",
+      "Layer mozzarella, pepperoni, sausage, mushrooms and green pepper on top.",
+      "Bake for 8-10 minutes until cheese is bubbly and edges are golden.",
+      "Finish with fresh basil, a pinch of oregano and chili flakes before serving.",
     ],
   },
   {
-    id: "tomato-cheese-breakfast",
-    title: "Tomato Cheese",
-    accent: "Breakfast",
+    id: "salmon-poke-bowl",
+    title: "Salmon Poke",
+    accent: "Bowl",
     description:
-      "A warm tomato and cheese breakfast plate built from everyday fridge staples.",
-    time: "18 min",
+      "A vibrant, nourishing bowl with marinated salmon, sushi rice, creamy avocado, and fresh vegetables.",
+    time: "20 min",
     difficulty: "Easy",
-    calories: "450 kcal",
-    thumb: "assets/thumb-tomato.png",
-    image: "assets/omelette.png",
-    alt: "Tomato and cheese breakfast omelette",
-    meta: "tomato + cheese + eggs / 18 min / easy",
+    calories: "580 kcal",
+    thumb: "poke_bowl.png",
+    image: "poke_bowl.png",
+    alt: "Salmon poke bowl with rice, avocado, edamame and sesame seeds",
+    meta: "salmon + rice + avocado / 20 min / easy",
     tags: [
-      "tomato",
-      "tomato",
-      "cheese",
-      "cheese",
-      "egg",
-      "eggs",
-      "breakfast",
-      "breakfast",
-      "herbs",
+      "salmon",
+      "salmon",
+      "rice",
+      "rice",
+      "avocado",
+      "avocado",
+      "cucumber",
+      "soy",
+      "sesame",
+      "poke",
+      "fish",
+      "bowl",
     ],
     ingredients: [
-      "3 large eggs",
-      "1 medium tomato, sliced",
-      "3 tbsp diced cheese",
-      "1 tbsp olive oil",
-      "1 tbsp chives",
-      "Salt, to taste",
-      "Black pepper, to taste",
-      "Chili flakes, optional",
+      "200g fresh salmon, diced",
+      "1 cup sushi rice, cooked",
+      "1 ripe avocado, sliced",
+      "½ cucumber, thinly sliced",
+      "2 tbsp soy sauce",
+      "1 tbsp sesame oil",
+      "Sesame seeds (optional)",
+      "Nori strips (optional)",
     ],
     instructions: [
-      "Season tomatoes with a pinch of salt and pepper.",
-      "Whisk eggs and cook them in olive oil over medium-low heat.",
-      "Add tomato and cheese while the top is still glossy.",
-      "Fold, cover for one minute, then finish with chives.",
+      "Cook sushi rice and let cool slightly.",
+      "Marinate salmon in soy sauce and sesame oil for 5 minutes.",
+      "Arrange rice in a bowl as the base.",
+      "Top with salmon, avocado, cucumber and garnish.",
     ],
   },
 ];
@@ -135,6 +147,9 @@ const photoInput = document.querySelector("#photoInput");
 const uploadButton = document.querySelector("#uploadButton");
 const cueHint = document.querySelector("#cueHint");
 const recipeList = document.querySelector("#recipeList");
+const photoPreview = document.querySelector("#photoPreview");
+const photoPreviewImage = document.querySelector("#photoPreviewImage");
+const photoPreviewRemove = document.querySelector("#photoPreviewRemove");
 
 const recipeTitle = document.querySelector("#recipeTitle");
 const recipeDescription = document.querySelector("#recipeDescription");
@@ -158,13 +173,39 @@ function renderRecipeList() {
   recipeList.innerHTML = recipes
     .map(
       (recipe) => `
-        <button class="recipe-row" type="button" data-recipe="${recipe.id}">
-          <img src="${recipe.thumb}" alt="${recipe.title} ${recipe.accent}" />
-          <span>
-            <h3>${recipe.title} ${recipe.accent}</h3>
-            <p>${recipe.meta}</p>
+        <button class="recipe-card" type="button" data-recipe="${recipe.id}">
+          <span class="recipe-card-image">
+            <img src="${recipe.image}" alt="${recipe.title} ${recipe.accent}" loading="lazy" />
           </span>
-          ${iconArrow}
+          <span class="recipe-card-body">
+            <span class="recipe-card-title">
+              <h3>${recipe.title} <em>${recipe.accent}</em></h3>
+              ${iconArrow}
+            </span>
+            <span class="recipe-card-meta">
+              <span class="recipe-card-meta-item">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M12 7v6l4 2"></path>
+                </svg>
+                ${recipe.time}
+              </span>
+              <span class="recipe-card-meta-item">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 22c4.2-1.7 7-4.7 7-8.5 0-2.7-1.4-5.1-4.1-7.1.2 2.4-.6 4.1-2.4 5.1.2-3.9-1.4-6.7-4.8-8.5.4 3-.2 5.1-1.8 6.5C4.6 10.7 4 12.1 4 14c0 3.8 2.8 6.8 8 8Z"></path>
+                </svg>
+                ${recipe.calories}
+              </span>
+              <span class="recipe-card-meta-item">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 19V9a2 2 0 1 1 4 0v10"></path>
+                  <path d="M10 19V5a2 2 0 1 1 4 0v14"></path>
+                  <path d="M15 19v-7a2 2 0 1 1 4 0v7"></path>
+                </svg>
+                ${recipe.difficulty}
+              </span>
+            </span>
+          </span>
         </button>
       `,
     )
@@ -248,11 +289,11 @@ function updateCueHint() {
 
   if (value) {
     const recipe = chooseRecipe(value);
-    cueHint.textContent = `${value} -> ${recipe.accent.toLowerCase()}`;
+    cueHint.textContent = `${value} → ${recipe.accent.toLowerCase()}`;
     return;
   }
 
-  cueHint.textContent = "eggs + tomato -> omelette";
+  cueHint.textContent = "eggs + tomato → omelette";
 }
 
 renderRecipeList();
@@ -275,7 +316,7 @@ form.addEventListener("submit", (event) => {
   setGenerating(true);
   cueHint.textContent = lastPhotoName
     ? "detecting eggs + tomato + avocado"
-    : `${value || "eggs + tomato"} -> ${recipe.accent.toLowerCase()}`;
+    : `${value || "eggs + tomato"} → ${recipe.accent.toLowerCase()}`;
 
   window.setTimeout(() => {
     setGenerating(false);
@@ -289,22 +330,108 @@ uploadButton.addEventListener("click", () => {
   photoInput.click();
 });
 
-photoInput.addEventListener("change", () => {
-  const file = photoInput.files && photoInput.files[0];
+let lastPhotoUrl = "";
 
-  if (!file) {
-    lastPhotoName = "";
-    uploadButton.classList.remove("is-loaded");
-    updateCueHint();
+function setPhotoPreview(file) {
+  if (!file || !file.type || !file.type.startsWith("image/")) {
+    clearPhotoPreview();
     return;
   }
 
-  lastPhotoName = file.name.length > 28 ? `${file.name.slice(0, 25)}...` : file.name;
+  if (lastPhotoUrl) URL.revokeObjectURL(lastPhotoUrl);
+  lastPhotoUrl = URL.createObjectURL(file);
+  photoPreviewImage.src = lastPhotoUrl;
+  photoPreview.hidden = false;
+
+  const rawName = file.name || "pasted-image";
+  lastPhotoName = rawName.length > 28 ? `${rawName.slice(0, 25)}...` : rawName;
   uploadButton.classList.add("is-loaded");
+  ingredientInput.classList.add("has-photo");
   updateCueHint();
+}
+
+function clearPhotoPreview() {
+  if (lastPhotoUrl) {
+    URL.revokeObjectURL(lastPhotoUrl);
+    lastPhotoUrl = "";
+  }
+  photoPreviewImage.removeAttribute("src");
+  photoPreview.hidden = true;
+  ingredientInput.classList.remove("has-photo");
+
+  lastPhotoName = "";
+  photoInput.value = "";
+  uploadButton.classList.remove("is-loaded");
+  updateCueHint();
+}
+
+photoInput.addEventListener("change", () => {
+  const file = photoInput.files && photoInput.files[0];
+  if (!file) {
+    clearPhotoPreview();
+    return;
+  }
+  setPhotoPreview(file);
+});
+
+photoPreviewRemove.addEventListener("click", (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+  clearPhotoPreview();
+});
+
+function handlePastedItems(items) {
+  if (!items) return false;
+  for (const item of items) {
+    if (item && item.kind === "file") {
+      const file = item.getAsFile();
+      if (file && file.type && file.type.startsWith("image/")) {
+        setPhotoPreview(file);
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+ingredientInput.addEventListener("paste", (event) => {
+  const items = event.clipboardData && event.clipboardData.items;
+  if (handlePastedItems(items)) {
+    event.preventDefault();
+  }
+});
+
+document.addEventListener("paste", (event) => {
+  if (event.defaultPrevented) return;
+  const target = event.target;
+  const isFormField =
+    target instanceof HTMLElement &&
+    (target.tagName === "INPUT" || target.tagName === "TEXTAREA" ||
+      target.isContentEditable);
+  if (isFormField && target !== ingredientInput) return;
+
+  const items = event.clipboardData && event.clipboardData.items;
+  if (handlePastedItems(items)) {
+    event.preventDefault();
+  }
 });
 
 document.addEventListener("click", (event) => {
+  const suggestionTarget = event.target.closest("[data-suggestion]");
+  if (suggestionTarget) {
+    event.preventDefault();
+    const value = suggestionTarget.dataset.suggestion || "";
+    ingredientInput.value = value;
+    ingredientInput.focus();
+    updateCueHint();
+    if (typeof form.requestSubmit === "function") {
+      form.requestSubmit();
+    } else {
+      form.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }));
+    }
+    return;
+  }
+
   const actionTarget = event.target.closest("[data-action]");
   if (!actionTarget) return;
 
