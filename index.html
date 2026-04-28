@@ -34,7 +34,7 @@
           <a href="#footer">Contact</a>
         </nav>
 
-        <button class="nav-cta" type="button" data-action="focus-input">
+        <button class="nav-cta" type="button" data-action="auth">
           Get started
         </button>
 
@@ -42,7 +42,7 @@
           class="nav-profile"
           type="button"
           aria-label="Account"
-          data-action="focus-input"
+          data-action="auth"
         >
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="12" cy="9" r="3.4" />
@@ -298,6 +298,159 @@
               <h2>Instructions</h2>
               <ol id="instructionsList"></ol>
             </section>
+          </div>
+        </section>
+
+        <section class="page auth-page" data-page="auth" aria-live="polite">
+          <div class="auth-layout">
+            <div class="auth-copy">
+              <a class="auth-brand" href="#home" data-action="home" aria-label="CUE home">
+                <img class="brand-logo" src="assets/logo-cue.png" alt="CUE" />
+              </a>
+
+              <div class="auth-heading">
+                <h1>
+                  <span id="authTitle">Welcome back</span><br />
+                  <span id="authSubtitle">Let&rsquo;s cook something great</span>
+                </h1>
+                <p id="authLead">Sign in to save recipes, plan meals, and more.</p>
+              </div>
+
+              <div class="auth-tabs" role="tablist" aria-label="Authentication mode">
+                <button
+                  class="auth-tab is-active"
+                  type="button"
+                  role="tab"
+                  aria-selected="true"
+                  data-auth-tab="signin"
+                >
+                  Sign in
+                </button>
+                <button
+                  class="auth-tab"
+                  type="button"
+                  role="tab"
+                  aria-selected="false"
+                  data-auth-tab="signup"
+                >
+                  Create account
+                </button>
+              </div>
+
+              <form class="auth-form" id="authForm" novalidate>
+                <label class="auth-field" data-field="name" hidden>
+                  <span class="auth-field-label">Full name</span>
+                  <input
+                    type="text"
+                    name="name"
+                    autocomplete="name"
+                    placeholder="Jane Doe"
+                  />
+                </label>
+
+                <label class="auth-field">
+                  <span class="auth-field-label">Email</span>
+                  <input
+                    type="email"
+                    name="email"
+                    autocomplete="email"
+                    placeholder="you@example.com"
+                  />
+                </label>
+
+                <label class="auth-field">
+                  <span class="auth-field-label">Password</span>
+                  <span class="auth-password-wrap">
+                    <input
+                      id="authPassword"
+                      type="password"
+                      name="password"
+                      autocomplete="current-password"
+                      placeholder="Enter your password"
+                    />
+                    <button
+                      class="auth-password-toggle"
+                      type="button"
+                      id="authPasswordToggle"
+                      aria-label="Show password"
+                      title="Show password"
+                    >
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                    </button>
+                  </span>
+                </label>
+
+                <div class="auth-row">
+                  <label class="auth-remember">
+                    <input type="checkbox" name="remember" />
+                    <span class="auth-check" aria-hidden="true"></span>
+                    <span>Remember me</span>
+                  </label>
+                  <a class="auth-forgot" href="#" data-auth-action="forgot">Forgot password?</a>
+                </div>
+
+                <button class="auth-submit" type="submit" id="authSubmit">
+                  <span>Sign in</span>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M5 12h14" />
+                    <path d="m13 6 6 6-6 6" />
+                  </svg>
+                </button>
+
+                <div class="auth-divider"><span>or continue with</span></div>
+
+                <div class="auth-providers">
+                  <button class="auth-provider" type="button" data-provider="google">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" class="provider-icon-google">
+                      <path
+                        d="M21.6 12.23c0-.71-.06-1.4-.18-2.06H12v3.9h5.42a4.63 4.63 0 0 1-2 3.04v2.52h3.24c1.9-1.75 2.94-4.32 2.94-7.4Z"
+                        fill="#4285F4"
+                        stroke="none"
+                      />
+                      <path
+                        d="M12 22c2.7 0 4.96-.9 6.62-2.43l-3.24-2.52c-.9.6-2.05.96-3.38.96-2.6 0-4.8-1.76-5.59-4.12H3.07v2.6A10 10 0 0 0 12 22Z"
+                        fill="#34A853"
+                        stroke="none"
+                      />
+                      <path
+                        d="M6.41 13.89A6 6 0 0 1 6.1 12c0-.66.11-1.3.31-1.89V7.51H3.07A10 10 0 0 0 2 12c0 1.62.39 3.15 1.07 4.5l3.34-2.61Z"
+                        fill="#FBBC05"
+                        stroke="none"
+                      />
+                      <path
+                        d="M12 5.98c1.47 0 2.79.5 3.83 1.5l2.87-2.87C16.95 2.99 14.7 2 12 2A10 10 0 0 0 3.07 7.5l3.34 2.6C7.2 7.74 9.4 5.98 12 5.98Z"
+                        fill="#EA4335"
+                        stroke="none"
+                      />
+                    </svg>
+                    <span>Google</span>
+                  </button>
+                  <button class="auth-provider" type="button" data-provider="apple">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" class="provider-icon-apple">
+                      <path
+                        d="M16.36 12.4c0-2.43 1.99-3.6 2.08-3.65-1.13-1.66-2.9-1.88-3.52-1.91-1.5-.15-2.93.88-3.69.88-.77 0-1.94-.86-3.2-.83-1.64.02-3.16.95-4 2.42-1.7 2.96-.43 7.34 1.22 9.74.81 1.18 1.77 2.5 3.03 2.45 1.22-.05 1.68-.79 3.16-.79 1.47 0 1.89.79 3.18.76 1.31-.02 2.14-1.2 2.94-2.39.93-1.37 1.32-2.7 1.34-2.77-.03-.01-2.56-.99-2.58-3.91Zm-2.41-7.18c.67-.81 1.12-1.94 1-3.06-.97.04-2.15.65-2.84 1.46-.62.72-1.16 1.86-1.02 2.97 1.08.08 2.18-.55 2.86-1.37Z"
+                        fill="currentColor"
+                        stroke="none"
+                      />
+                    </svg>
+                    <span>Apple</span>
+                  </button>
+                </div>
+
+                <p class="auth-fineprint" id="authFineprint">
+                  By signing in, you agree to our
+                  <a href="#" data-auth-action="terms">Terms of Service</a> and
+                  <a href="#" data-auth-action="privacy">Privacy Policy</a>.
+                </p>
+              </form>
+            </div>
+
+            <div class="auth-visual" aria-hidden="true">
+              <img src="sign.png" alt="" />
+            </div>
           </div>
         </section>
       </main>

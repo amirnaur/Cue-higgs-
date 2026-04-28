@@ -139,6 +139,7 @@ const recipes = [
 const pages = {
   landing: document.querySelector('[data-page="landing"]'),
   recipe: document.querySelector('[data-page="recipe"]'),
+  auth: document.querySelector('[data-page="auth"]'),
 };
 
 const form = document.querySelector("#generateForm");
@@ -230,8 +231,10 @@ function showPage(name, options = {}) {
   const { scrollTop = true } = options;
 
   Object.entries(pages).forEach(([key, page]) => {
-    page.classList.toggle("is-active", key === name);
+    if (page) page.classList.toggle("is-active", key === name);
   });
+
+  document.body.classList.toggle("auth-mode", name === "auth");
 
   if (scrollTop) {
     window.scrollTo({ top: 0, behavior: "auto" });
@@ -448,7 +451,82 @@ document.addEventListener("click", (event) => {
     showPage("landing", { scrollTop: true });
     window.setTimeout(() => ingredientInput.focus(), 180);
   }
+
+  if (action === "auth") {
+    event.preventDefault();
+    history.replaceState(null, "", "#auth");
+    showPage("auth", { scrollTop: true });
+  }
 });
+
+// ----- Auth page logic -----
+const authForm = document.querySelector("#authForm");
+
+if (authForm) {
+  const authTabs = document.querySelectorAll(".auth-tab");
+  const authTitle = document.querySelector("#authTitle");
+  const authSubtitle = document.querySelector("#authSubtitle");
+  const authLead = document.querySelector("#authLead");
+  const authSubmit = document.querySelector("#authSubmit");
+  const authNameField = authForm.querySelector('[data-field="name"]');
+  const authPassword = document.querySelector("#authPassword");
+  const authPasswordToggle = document.querySelector("#authPasswordToggle");
+
+  function setAuthMode(mode) {
+    const isSignup = mode === "signup";
+
+    authTabs.forEach((tab) => {
+      const active = tab.dataset.authTab === mode;
+      tab.classList.toggle("is-active", active);
+      tab.setAttribute("aria-selected", active ? "true" : "false");
+    });
+
+    if (isSignup) {
+      authTitle.textContent = "Get started";
+      authSubtitle.textContent = "Let’s cook something great";
+      authLead.textContent = "Create an account to save recipes, plan meals, and more.";
+      authSubmit.querySelector("span").textContent = "Create account";
+      authNameField.hidden = false;
+      authPassword.setAttribute("autocomplete", "new-password");
+    } else {
+      authTitle.textContent = "Welcome back";
+      authSubtitle.textContent = "Let’s cook something great";
+      authLead.textContent = "Sign in to save recipes, plan meals, and more.";
+      authSubmit.querySelector("span").textContent = "Sign in";
+      authNameField.hidden = true;
+      authPassword.setAttribute("autocomplete", "current-password");
+    }
+  }
+
+  authTabs.forEach((tab) => {
+    tab.addEventListener("click", () => setAuthMode(tab.dataset.authTab));
+  });
+
+  if (authPasswordToggle && authPassword) {
+    authPasswordToggle.addEventListener("click", () => {
+      const isPassword = authPassword.type === "password";
+      authPassword.type = isPassword ? "text" : "password";
+      authPasswordToggle.classList.toggle("is-visible", isPassword);
+      authPasswordToggle.setAttribute(
+        "aria-label",
+        isPassword ? "Hide password" : "Show password",
+      );
+    });
+  }
+
+  authForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const submitSpan = authSubmit.querySelector("span");
+    const originalText = submitSpan.textContent;
+    authSubmit.disabled = true;
+    submitSpan.textContent = "Loading…";
+    window.setTimeout(() => {
+      authSubmit.disabled = false;
+      submitSpan.textContent = originalText;
+      goToLandingSection("#home");
+    }, 720);
+  });
+}
 
 document.addEventListener("click", (event) => {
   if (event.target.closest("[data-action]")) return;
@@ -464,6 +542,11 @@ document.addEventListener("click", (event) => {
 });
 
 window.addEventListener("load", () => {
+  if (window.location.hash === "#auth") {
+    showPage("auth");
+    return;
+  }
+
   const recipe = recipes.find((item) => `#${item.id}` === window.location.hash);
   if (recipe) {
     renderRecipe(recipe);
